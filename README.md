@@ -16,6 +16,7 @@ Les stocker mais ou ?
 - type de scheduler
 
 Faire des structures.
+Faire les structures avant le parsing??????? et parser les structures?
 
 
 Thread (fil d'execution) = tache que le programme fait en parallele. ex : dans un restau, le programme c'est le restau, les threads sont les serveurs qui travaillent tous dans le meme espace memoire sans se connaitre forcement.
