@@ -6,15 +6,28 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:29 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 17:20:33 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:31:44 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void *no_name_yet(void *arg)
+void *fifo(void *arg)
 {
-	(void)arg;
-	printf("gg ");
-	return ((char *)arg);
+	t_coder *coder = (t_coder *)arg;
+	t_data *data = coder->data;
+	pthread_mutex_lock(&data->log_lock);
+	printf("codeur %i: je me reveille\n", coder->id);
+	pthread_mutex_unlock(&data->log_lock);
+	return (NULL);
+}
+
+void *edf(void *arg)
+{
+	t_coder *coder = (t_coder *)arg;
+	t_data *data = coder->data;
+	pthread_mutex_lock(&data->log_lock);
+	printf("codeur %i: je me reveille pas\n", coder->id);
+	pthread_mutex_unlock(&data->log_lock);
+	return (NULL);
 }

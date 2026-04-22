@@ -6,12 +6,11 @@ INCLUDE = 			-I$/include
 
 SRCS_DIR = 			sources
 C_FILES = 			main.c \
-		  			prep/parser.c \
+		  			parser.c \
 					utils/ft_atol.c \
-					threads.c \
 					simulation/coders.c \
 					simulation/monitor.c \
-					prep/data_struct.c \
+					fill_struct.c \
 					clean.c
 
 SRC = 				$(addprefix $(SRCS_DIR)/, $(C_FILES))

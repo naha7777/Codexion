@@ -249,29 +249,6 @@ si il n'y a pas de burnout le programme se stop lorsque tous les codeurs ont fin
 -
 
 
-# Codexion
-
-## Resources
-### Documentation
-https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c/
-https://dev.to/yel-bakk/codexion-4fk8
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 init_step = 1 : mutex stop_lock initialise --> destroy
 init_step = 2 : mutex log_lock initialise --> destroy
@@ -282,3 +259,46 @@ init_step = 6 : threads codeurs crees --> join
 
 
 si le fill_struct renvoie 1 on regarde alors a quelle etape de init step ca a foire et on repare tout ce qui a ete fait
+
+
+
+
+gettimeofday donne des secondes et des microsecondes
+usleep demande des microsecondes
+mais on a des millisecondes NOUS
+- 1 seconde (s)
+- 1 milliseconde (ms) = 1/1000 de seconde (un millieme)
+- 1 microseconde = 1/1000 de millisecondes (un millionieme de seconde)
+
+si 60 en argument alors dans usleep : 60*1000 soit 60 000
+
+avec gettimeofday pour obtenir un resultat en millisecondes :
+- on prend les secondes qu'on multiplie par 1000
+- on prend les microsecondes qu'on divise par 1000
+et on les additionne car c'est comme 1min30 sauf que la c'est 1sec30microsecondes
+
+
+_This project has been created as part of the 42 curriculum by anacharp._
+
+# Codexion
+## Description
+Presents the project, including goals and brief overview
+
+## Instructions
+Informations about compilation, installation and/or execution
+
+## Blocking cases handled
+Section describing all the concurrency issues adressed in your solution (deadlock prevention and Coffman's conditions, starvation prevention, cooldown handling, precise burnout detection, log serialization)
+
+## Thread synchronization mechanisms
+Section explaining the specific threading primitives used in your implementation  (pthread_mutex_t, pthread_cond_t, custom event implementation) and how they coordinate access to shared resources (dongles, logging, monitor state). Include examples of how race conditions are prevented and how thread-safe communication is achieved between coders and the monitor.
+
+## Resources
+### Documentation
+- https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c/
+- https://dev.to/yel-bakk/codexion-4fk8
+
+### AI Usage
+AI was used for the following tasks :
+- better understanding of threads
+-
