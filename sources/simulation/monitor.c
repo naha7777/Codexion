@@ -1,26 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/21 13:49:24 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 17:19:15 by anacharp         ###   ########.fr       */
+/*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
+/*   Updated: 2026/04/22 13:20:32 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
-
-int	main(int ac, char **av)
-{
-	t_data data;
-
-	memset(&data, 0, sizeof(t_data));
-	if (parser(ac, av) != 0)
-		return (1);
-	if (fill_data(av, &data) != 0)
-		return (problem_clean(&data), 1);
-	end_clean(&data);
-	return (0);
-}

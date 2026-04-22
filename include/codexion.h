@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 11:12:17 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/22 17:18:59 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_dongle
 
 typedef struct s_data
 {
+	int					init_step;
 	int					nb_coder;
 	float				burn_t;
 	float				compil_t;
@@ -57,5 +58,9 @@ typedef struct s_data
 int		parser(int argc, char **argv);
 long	ft_atol(const char *nptr);
 void	threads(int ac, char **av);
+int		fill_data(char **av, t_data *data);
+void	*no_name_yet(void *arg);
+void	end_clean(t_data *data);
+void 	problem_clean(t_data *data);
 
 #endif

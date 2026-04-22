@@ -178,7 +178,9 @@ a partir de la structure principale data (pour enregistrer tout dedans et y avoi
 - allouer le tableau de structures pour les codeurs : malloc de la taille de la structure * le nombre de coders
 - pareil pour les dongles
 - puis securiser les malloc
-- quand le tableau est malloc, il faut faire une boucle pour creer les threads. A chaque creationm l faut donner a chaque thread l'adresse de sa propre structure dans le tableau
+- quand le tableau est malloc, il faut faire une boucle pour creer les threads.
+- pour chaque thread on doit initialiser les valeurs de sa structure : ID (i+1), nb_compiled = 0, donner l'adresse de la structure principale puis creer le thread
+- A chaque creation il faut donner l'adresse de sa propre structure dans le tableau (en gros partir de la structure principale pour lui donner l'adresse de ce thread dans la structure coders dans la structure data)
 
 - on cree le thread du monitor
 - on cree les codeurs / threads
@@ -188,34 +190,11 @@ a partir de la structure principale data (pour enregistrer tout dedans et y avoi
 - sinon dans une autre
 <!-- ORGA -->
 
+- recuperer toutes les datas et les mettre dans la structure principale
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Qu'en faire quand c'est check ?
-Les stocker mais ou ?
-
-
-Faire des structures.
-parser et envoyer dans les structures
 
 
 Thread (fil d'execution) = tache que le programme fait en parallele. ex : dans un restau, le programme c'est le restau, les threads sont les serveurs qui travaillent tous dans le meme espace memoire sans se connaitre forcement.
@@ -276,3 +255,30 @@ si il n'y a pas de burnout le programme se stop lorsque tous les codeurs ont fin
 ### Documentation
 https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c/
 https://dev.to/yel-bakk/codexion-4fk8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+init_step = 1 : mutex stop_lock initialise --> destroy
+init_step = 2 : mutex log_lock initialise --> destroy
+init_step = 3 : malloc data->dongles fait --> free
+init_step = 4 : mutexs lock et cond initialise --> destroy
+init_step = 5 : malloc data->coders fait --> free
+init_step = 6 : threads codeurs crees --> join
+
+
+si le fill_struct renvoie 1 on regarde alors a quelle etape de init step ca a foire et on repare tout ce qui a ete fait
