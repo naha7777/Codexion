@@ -1,46 +1,75 @@
-/* *********************************************************************** */
-/*                                                                         */
-/*                                                     :::      ::::::::   */
-/* parser.c                                          :+:      :+:    :+:   */
-/*                                                 +:+ +:+         +:+     */
-/* By: anacharp <anacharp@student.42lehavre.fr   +#+  +:+       +#+        */
-/*                                             +#+#+#+#+#+   +#+           */
-/* Created: 2026/04/21 10:36:06 by anacharp        #+#    #+#              */
-/* Updated: 2026/04/21 11:20:46 by anacharp        ###   ########.fr       */
-/*                                                                         */
-/* *********************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/21 13:48:56 by anacharp          #+#    #+#             */
+/*   Updated: 2026/04/21 14:45:13 by anacharp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "codexion.h"
 
-static int parse_nb(char *arg)
+static int	parse_nb(char *arg)
 {
 	int		i;
-	int	nb;
+	long	nb;
 
 	i = 0;
 	if (arg[i] == '-' || !arg[i])
-		return NULL;
+	{
+		printf("Invalid value '%s', put a positive integer", arg);
+		return (INT_MIN);
+	}
 	while (arg[i])
 	{
 		if (arg[i] < '0' || arg[i] > '9')
-			return NULL;
+		{
+			printf("Invalid value '%s', put an integer", arg);
+			return (INT_MIN);
+		}
 		i++;
 	}
-	nb = atoi(arg);
+	nb = ft_atol(arg);
 	if (nb > INT_MAX || nb < INT_MIN)
-		return NULL;
+	{
+		printf("Invalid value '%s'", arg);
+		return (INT_MIN);
+	}
 	return (nb);
 }
 
-
-void parser(int ac, char **av)
+static char	*parse_schedule(char *arg)
 {
-	int i;
-	(void)av;
-	(void)ac;
-	i = 0;
-	while(++i < ac - 1)
+	char	*fifo;
+	char	*edf;
+
+	fifo = "fifo";
+	edf = "edf";
+	if (strcmp(arg, fifo) == 0 || strcmp(arg, edf) == 0)
+		return (arg);
+	printf("Invalid schedule '%s': choose between 'fifo' and 'edf'", arg);
+	return (NULL);
+}
+
+int	parser(int ac, char **av)
+{
+	int		i;
+	int		nb;
+	char	*s;
+
+	i = 1;
+	while (i < ac - 1)
 	{
-		parse_nb(av[i]);
+		nb = parse_nb(av[i]);
+		if (nb == INT_MIN)
+			return (0);
+		i++;
 	}
+	s = parse_schedule(av[ac - 1]);
+	if (s == NULL)
+		return (0);
+	return (1);
 }

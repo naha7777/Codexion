@@ -1,33 +1,38 @@
-NAME = codexion
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+NAME = 				codexion
+CC = 				cc
+CFLAGS = 			-Wall -Wextra -Werror -fsanitize=thread -g
 
-INCLUDE = -I$/include
+INCLUDE = 			-I$/include
 
-SRCS_DIR = sources
-C_FILES = main.c \
-		  parser.c
+SRCS_DIR = 			sources
+C_FILES = 			main.c \
+		  			parser.c \
+					ft_atol.c \
+					threads.c \
+					coders.c \
+					monitor.c
 
-SRC = $(addprefix $(SRCS_DIR)/, $(C_FILES))
+SRC = 				$(addprefix $(SRCS_DIR)/, $(C_FILES))
 
-OBJS_DIR = obj
-OBJ = $(patsubst $(SRCS_DIR)/%.c, $(OBJS_DIR)/%.o, $(SRC))
+OBJS_DIR = 			obj
+OBJ = 				$(patsubst $(SRCS_DIR)/%.c, $(OBJS_DIR)/%.o, $(SRC))
 
-.PHONY: all clean fclean re
+.PHONY: 			all clean fclean re
 
-all: $(NAME)
+all: 				$(NAME)
 
-$(NAME): $(OBJ)
-		 $(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+$(NAME): 			$(OBJ)
+		 			$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-				 mkdir -p $(dir $@)
-				 $(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+$(OBJS_DIR)/%.o:	$(SRCS_DIR)/%.c
+					mkdir -p $(dir $@)
+					$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
-		rm -rf $(OBJS_DIR)
+					rm -rf $(OBJS_DIR)
+					@clear
 
-fclean: clean
-		rm -f $(NAME)
+fclean: 			clean
+					rm -f $(NAME)
 
-re: fclean all
+re: 				fclean all

@@ -1,14 +1,14 @@
-/* *********************************************************************** */
-/*                                                                         */
-/*                                                     :::      ::::::::   */
-/* codexion.h                                        :+:      :+:    :+:   */
-/*                                                 +:+ +:+         +:+     */
-/* By: anacharp <anacharp@student.42lehavre.fr   +#+  +:+       +#+        */
-/*                                             +#+#+#+#+#+   +#+           */
-/* Created: 2026/04/21 09:37:15 by anacharp        #+#    #+#              */
-/* Updated: 2026/04/21 11:19:09 by anacharp        ###   ########.fr       */
-/*                                                                         */
-/* *********************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   codexion.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
+/*   Updated: 2026/04/22 11:12:17 by anacharp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
@@ -21,6 +21,41 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-void parser(int argc, char **argv);
+typedef struct s_coder
+{
+	int				id;
+	int				nb_compiled;
+	long			last_compile;
+	pthread_t		thread_id;
+	struct s_data	*data;
+}					t_coder;
+
+typedef struct s_dongle
+{
+	pthread_mutex_t	lock;
+	pthread_cond_t	cond;
+	long			cooldown_begin;
+}					t_dongle;
+
+typedef struct s_data
+{
+	int					nb_coder;
+	float				burn_t;
+	float				compil_t;
+	float				debug_t;
+	float				refact_t;
+	int					tt_compil;
+	float				dongles_cld;
+	char				*schedul;
+	int					stop_simu;
+	pthread_mutex_t		stop_lock;
+	pthread_mutex_t		log_lock;
+	t_coder				*coders;
+	t_dongle			*dongles;
+}						t_data;
+
+int		parser(int argc, char **argv);
+long	ft_atol(const char *nptr);
+void	threads(int ac, char **av);
 
 #endif
