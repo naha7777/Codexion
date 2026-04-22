@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 13:48:56 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 13:16:07 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:37:09 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ int	parser(int ac, char **av)
 	int		i;
 	int		nb;
 	char	*s;
+
 	if (ac < 9 || ac > 9)
 	{
 		printf("Invalid number of arguments: %i", ac);
 		return (1);
 	}
-
 	i = 1;
 	while (i < ac - 1)
 	{

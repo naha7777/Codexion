@@ -6,7 +6,13 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 13:20:32 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:44:15 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "codexion.h"
+
+void	monitor(void *arg)
+{
+	printf("banana");
+}

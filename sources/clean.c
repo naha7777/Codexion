@@ -6,15 +6,15 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 17:18:30 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:36:53 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void join_coders(t_data *data)
+static void	join_coders(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->nb_coder)
@@ -24,12 +24,12 @@ static void join_coders(t_data *data)
 	}
 }
 
-static void mutex_destroy(t_data *data)
+static void	mutex_destroy(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < data->nb_coder)
+	while (i < data->nb_coder)
 	{
 		pthread_mutex_destroy(&data->dongles[i].lock);
 		pthread_cond_destroy(&data->dongles[i].cond);
@@ -37,7 +37,7 @@ static void mutex_destroy(t_data *data)
 	}
 }
 
-void problem_clean(t_data *data)
+void	problem_clean(t_data *data)
 {
 	while (data->init_step > 0)
 	{
@@ -57,7 +57,7 @@ void problem_clean(t_data *data)
 	}
 }
 
-void end_clean(t_data *data)
+void	end_clean(t_data *data)
 {
 	join_coders(data);
 	free(data->coders);

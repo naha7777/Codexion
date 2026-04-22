@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 13:49:24 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 17:19:15 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:36:10 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av)
 {
-	t_data data;
+	t_data	data;
 
 	memset(&data, 0, sizeof(t_data));
 	if (parser(ac, av) != 0)

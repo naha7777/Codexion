@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 18:32:17 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/22 18:43:47 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,24 @@ typedef struct s_data
 	t_dongle			*dongles;
 }						t_data;
 
+// PARSING
 int		parser(int argc, char **argv);
+
+// UTILS
 long	ft_atol(const char *nptr);
+
+// FILL STRUCTURES
 int		fill_data(char **av, t_data *data);
+
+// ALGOS
 void	*fifo(void *arg);
 void	*edf(void *arg);
+
+// CLEAN
 void	end_clean(t_data *data);
-void 	problem_clean(t_data *data);
+void	problem_clean(t_data *data);
+
+// MONITOR
+void	monitor(void *arg);
 
 #endif
