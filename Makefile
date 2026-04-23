@@ -1,6 +1,6 @@
 NAME = 				codexion
 CC = 				cc
-CFLAGS = 			-Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = 			-Wall -Wextra -Werror -pthread -g
 
 INCLUDE = 			-I$/include
 
@@ -8,7 +8,8 @@ SRCS_DIR = 			sources
 C_FILES = 			main.c \
 		  			parser.c \
 					utils/ft_atol.c \
-					simulation/coders.c \
+					simulation/fifo.c \
+					simulation/edf.c \
 					simulation/monitor.c \
 					fill_struct.c \
 					clean.c

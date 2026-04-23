@@ -278,6 +278,11 @@ avec gettimeofday pour obtenir un resultat en millisecondes :
 et on les additionne car c'est comme 1min30 sauf que la c'est 1sec30microsecondes
 
 
+creer le monitor
+faire un thread et lui passer data
+proteger le thread en sachant que si il rate on doit tout clean puisque c'est la derniere chose qu'on cree
+
+
 _This project has been created as part of the 42 curriculum by anacharp._
 
 # Codexion

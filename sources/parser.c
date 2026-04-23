@@ -1,3 +1,14 @@
+/* *********************************************************************** */
+/*                                                                         */
+/*                                                     :::      ::::::::   */
+/* parser.c                                          :+:      :+:    :+:   */
+/*                                                 +:+ +:+         +:+     */
+/* By: anacharp <anacharp@student.42lehavre.fr   +#+  +:+       +#+        */
+/*                                             +#+#+#+#+#+   +#+           */
+/* Created: 2026/04/23 10:59:32 by anacharp        #+#    #+#              */
+/* Updated: 2026/04/23 11:00:52 by anacharp        ###   ########.fr       */
+/*                                                                         */
+/* *********************************************************************** */
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,11 +17,13 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 13:48:56 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 18:37:09 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/23 10:58:35 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static int check_nb_coders(int nb_coders);
 
 static int	parse_nb(char *arg)
 {
@@ -69,6 +82,8 @@ int	parser(int ac, char **av)
 	while (i < ac - 1)
 	{
 		nb = parse_nb(av[i]);
+		if (i == 1 && (check_nb_coders(nb) != 0))
+			return (1);
 		if (nb == INT_MIN)
 			return (1);
 		i++;
@@ -76,5 +91,20 @@ int	parser(int ac, char **av)
 	s = parse_schedule(av[ac - 1]);
 	if (s == NULL)
 		return (1);
+	return (0);
+}
+
+static int check_nb_coders(int nb_coders)
+{
+	if (nb_coders > MAX_CODERS)
+	{
+		printf("Too many coders. Max is 200. Kill some coders. Please");
+		return (1);
+	}
+	else if (nb_coders == 0)
+	{
+		printf("You must have at least 1 coder. Please.");
+		return (1);
+	}
 	return (0);
 }

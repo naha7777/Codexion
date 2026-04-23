@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 18:36:53 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/23 11:48:06 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	join_coders(t_data *data)
 	int	i;
 
 	i = 0;
+	pthread_join(data->monitor_id, NULL);
 	while (i < data->nb_coder)
 	{
 		pthread_join(data->coders[i].thread_id, NULL);

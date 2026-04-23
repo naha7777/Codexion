@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor.c                                          :+:      :+:    :+:   */
+/*   edf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/23 11:44:43 by anacharp         ###   ########.fr       */
+/*   Created: 2026/04/23 08:34:36 by anacharp          #+#    #+#             */
+/*   Updated: 2026/04/23 08:34:44 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	*go_monitor(void *arg)
+void	*edf(void *arg)
 {
+	t_coder	*coder;
 	t_data	*data;
 
-	data = (t_data *)arg;
+	coder = (t_coder *)arg;
+	data = coder->data;
 	pthread_mutex_lock(&data->log_lock);
-	printf("banana\n");
+	printf("codeur %i: je me reveille pas\n", coder->id);
 	pthread_mutex_unlock(&data->log_lock);
 	return (NULL);
 }

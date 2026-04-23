@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/22 18:46:22 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/23 11:47:37 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ static int	fill_dongle(t_data *data)
 	i = 0;
 	data->dongles = malloc(sizeof(t_dongle) * data->nb_coder);
 	if (!data->dongles)
+	{
+		printf("Error during memory allocation.");
 		return (1);
+	}
 	data->init_step++;
 	while (i < data->nb_coder)
 	{
@@ -98,13 +101,13 @@ static int	fill_dongle(t_data *data)
 
 int	fill_data(char **av, t_data *data)
 {
-	data->nb_coder = atoi(av[1]);
-	data->burn_t = atoi(av[2]);
-	data->compil_t = atoi(av[3]);
-	data->debug_t = atoi(av[4]);
-	data->refact_t = atoi(av[5]);
-	data->tt_compil = atoi(av[6]);
-	data->dongles_cld = atoi(av[7]);
+	data->nb_coder = ft_atol(av[1]);
+	data->burn_t = ft_atol(av[2]);
+	data->compil_t = ft_atol(av[3]);
+	data->debug_t = ft_atol(av[4]);
+	data->refact_t = ft_atol(av[5]);
+	data->tt_compil = ft_atol(av[6]);
+	data->dongles_cld = ft_atol(av[7]);
 	data->schedul = av[8];
 	data->stop_simu = 0;
 	if (pthread_mutex_init(&data->stop_lock, NULL) != 0)
@@ -116,6 +119,8 @@ int	fill_data(char **av, t_data *data)
 	if (fill_dongle(data) != 0)
 		return (1);
 	if (fill_coder(data) != 0)
+		return (1);
+	if (pthread_create(&data->monitor_id, NULL, go_monitor, data) != 0)
 		return (1);
 	return (0);
 }
