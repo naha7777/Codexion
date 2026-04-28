@@ -118,7 +118,7 @@ en gros le monitor :
 - recommence
 Comme il verifie toutes les 1 ou 2ms, il est physiquement impossible qu'un codeur soit mort depuis plus de 10ms sans que le monitor ne s'en apercoive.
 
-Pour eviter que le monitor ne lise une heure pendan que le codeur est en train de l'ecrire (=data race), ils utilisent un mutex
+Pour eviter que le monitor ne lise une heure pendant que le codeur est en train de l'ecrire (=data race), ils utilisent un mutex
 - le codeur verouille, ecrit l'heure, deverouille
 - le monitor verouille, lit l'heure, deverouille
 
@@ -277,10 +277,6 @@ avec gettimeofday pour obtenir un resultat en millisecondes :
 - on prend les microsecondes qu'on divise par 1000
 et on les additionne car c'est comme 1min30 sauf que la c'est 1sec30microsecondes
 
-
-creer le monitor
-faire un thread et lui passer data
-proteger le thread en sachant que si il rate on doit tout clean puisque c'est la derniere chose qu'on cree
 
 
 _This project has been created as part of the 42 curriculum by anacharp._

@@ -12,7 +12,9 @@ C_FILES = 			main.c \
 					simulation/edf.c \
 					simulation/monitor.c \
 					fill_struct.c \
-					clean.c
+					clean.c \
+					destroy.c \
+					time.c
 
 SRC = 				$(addprefix $(SRCS_DIR)/, $(C_FILES))
 

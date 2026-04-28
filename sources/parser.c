@@ -6,7 +6,7 @@
 /* By: anacharp <anacharp@student.42lehavre.fr   +#+  +:+       +#+        */
 /*                                             +#+#+#+#+#+   +#+           */
 /* Created: 2026/04/23 10:59:32 by anacharp        #+#    #+#              */
-/* Updated: 2026/04/23 11:00:52 by anacharp        ###   ########.fr       */
+/* Updated: 2026/04/28 17:45:34 by anacharp        ###   ########.fr       */
 /*                                                                         */
 /* *********************************************************************** */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@
 
 #include "codexion.h"
 
-static int check_nb_coders(int nb_coders);
+static int	check_nb_coders(int nb_coders);
 
 static int	parse_nb(char *arg)
 {
@@ -94,7 +94,7 @@ int	parser(int ac, char **av)
 	return (0);
 }
 
-static int check_nb_coders(int nb_coders)
+static int	check_nb_coders(int nb_coders)
 {
 	if (nb_coders > MAX_CODERS)
 	{

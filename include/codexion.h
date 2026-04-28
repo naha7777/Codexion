@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/23 11:00:57 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:47:52 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct s_coder
 	int				nb_compiled;
 	long long		last_compile;
 	pthread_t		thread_id;
+	pthread_mutex_t	last_lock;
+	pthread_mutex_t	nb_lock;
 	struct s_data	*data;
 }					t_coder;
 
@@ -59,23 +61,32 @@ typedef struct s_data
 }						t_data;
 
 // PARSING
-int		parser(int argc, char **argv);
+int			parser(int argc, char **argv);
 
 // UTILS
-long	ft_atol(const char *nptr);
+long		ft_atol(const char *nptr);
 
 // FILL STRUCTURES
-int		fill_data(char **av, t_data *data);
+int			fill_data(char **av, t_data *data);
 
 // ALGOS
-void	*fifo(void *arg);
-void	*edf(void *arg);
+int			*fifo(void *arg);
+void		*edf(void *arg);
 
 // CLEAN
-void	end_clean(t_data *data);
-void	problem_clean(t_data *data);
+void		end_clean(t_data *data);
+void		problem_clean(t_data *data);
+
+// DESTROY
+void		double_destroy(int i, t_data *data);
+void		simple_destroy(int i, t_data *data);
+void		thread_fail(int i, t_data *data);
+void		destroy(int i, t_data *data);
 
 // MONITOR
-void	*go_monitor(void *arg);
+int			*go_monitor(void *arg);
+
+// TIME
+long long	get_time(void);
 
 #endif

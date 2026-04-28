@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/23 11:47:37 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:30:00 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,15 @@ static int	fill_coder(t_data *data)
 		data->coders[i].nb_compiled = 0;
 		data->coders[i].last_compile = 0;
 		data->coders[i].data = data;
+		if (pthread_mutex_init(&data->coders[i].last_lock, NULL) != 0)
+			return (simple_destroy(i, data), 1);
+		if (pthread_mutex_init(&data->coders[i].nb_lock, NULL) != 0)
+			return (double_destroy(i, data), 1);
 		if (thread_creation(i, data) != 0)
-			return (1);
+			return (thread_fail(i, data), 1);
 		i++;
 	}
 	return (data->init_step++, 0);
-}
-
-static void	destroy(int i, t_data *data)
-{
-	while (--i >= 0)
-	{
-		pthread_mutex_destroy(&data->dongles[i].lock);
-		pthread_cond_destroy(&data->dongles[i].cond);
-	}
 }
 
 static int	fill_dongle(t_data *data)
@@ -110,6 +105,7 @@ int	fill_data(char **av, t_data *data)
 	data->dongles_cld = ft_atol(av[7]);
 	data->schedul = av[8];
 	data->stop_simu = 0;
+	data->init_step = 0;
 	if (pthread_mutex_init(&data->stop_lock, NULL) != 0)
 		return (1);
 	data->init_step++;

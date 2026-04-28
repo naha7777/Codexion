@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:29 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/23 09:24:17 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:54:55 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,3 +24,5 @@ void	*fifo(void *arg)
 	pthread_mutex_unlock(&data->log_lock);
 	return (NULL);
 }
+
+//last_compile = temps du debut de la compile ou la fin ?

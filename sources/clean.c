@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/23 11:48:06 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:18:20 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	join_coders(t_data *data)
 	}
 }
 
-static void	mutex_destroy(t_data *data)
+static void	destroy(t_data *data)
 {
 	int	i;
 
@@ -38,12 +38,28 @@ static void	mutex_destroy(t_data *data)
 	}
 }
 
+static void	mutex_destroy(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_coder)
+	{
+		pthread_mutex_destroy(&data->coders[i].last_lock);
+		pthread_mutex_destroy(&data->coders[i].nb_lock);
+		i++;
+	}
+}
+
 void	problem_clean(t_data *data)
 {
 	while (data->init_step > 0)
 	{
 		if (data->init_step == 6)
+		{
 			join_coders(data);
+			mutex_destroy(data);
+		}
 		else if (data->init_step == 5)
 			free(data->coders);
 		else if (data->init_step == 4)
@@ -61,8 +77,9 @@ void	problem_clean(t_data *data)
 void	end_clean(t_data *data)
 {
 	join_coders(data);
-	free(data->coders);
 	mutex_destroy(data);
+	free(data->coders);
+	destroy(data);
 	free(data->dongles);
 	pthread_mutex_destroy(&data->log_lock);
 	pthread_mutex_destroy(&data->stop_lock);

@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edf.c                                              :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/23 08:34:36 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/28 16:24:07 by anacharp         ###   ########.fr       */
+/*   Created: 2026/04/28 17:31:52 by anacharp          #+#    #+#             */
+/*   Updated: 2026/04/28 17:46:34 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	*edf(void *arg)
+long long	get_time(void)
 {
-	t_coder	*coder;
-	t_data	*data;
+	struct timeval	tv;
 
-	coder = (t_coder *)arg;
-	data = coder->data;
-	pthread_mutex_lock(&data->log_lock);
-	printf("codeur %i: je me reveille pas\n", coder->id);
-	pthread_mutex_unlock(&data->log_lock);
-	return (NULL);
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
-
-// si le flag stop simu : return
