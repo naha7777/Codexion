@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/21 13:49:24 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 11:12:31 by anacharp         ###   ########.fr       */
+/*   Created: 2026/04/29 12:33:23 by anacharp          #+#    #+#             */
+/*   Updated: 2026/04/29 12:33:33 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	main(int ac, char **av)
+void	print_status(t_coder *coder, char *status)
 {
-	t_data	data;
-
-	memset(&data, 0, sizeof(t_data));
-	data.start_time = get_time();
-	if (parser(ac, av) != 0)
-		return (1);
-	if (fill_data(av, &data) != 0)
-		return (problem_clean(&data), 1);
-	end_clean(&data);
-	return (0);
+	pthread_mutex_lock(&coder->data->log_lock);
+	pthread_mutex_lock(&coder->data->stop_lock);
+	if (coder->data->stop_simu == 0)
+		printf("%lli %i %s\n", get_time(), coder->id, status);
+	pthread_mutex_unlock(&coder->data->stop_lock);
+	pthread_mutex_unlock(&coder->data->log_lock);
 }

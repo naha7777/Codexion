@@ -6,11 +6,24 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 10:16:29 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 10:16:43 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/29 11:08:23 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*t;
+
+	t = s;
+	while (n > 0)
+	{
+		*t = '\0';
+		t++;
+		n--;
+	}
+}
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {

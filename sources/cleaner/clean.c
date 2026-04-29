@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 10:00:00 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/29 11:06:48 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,6 @@ void	problem_clean(t_data *data)
 
 void	end_clean(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->nb_coder)
-	{
-		queuclear(data->dongles[i].queu);
-		i++;
-	}
 	join_coders(data);
 	mutex_destroy(data);
 	free(data->coders);

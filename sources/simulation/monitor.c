@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 09:26:19 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/29 11:29:23 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ static int	check_burn_out(t_data *data)
 {
 	int	i;
 	int	last;
+	long long time;
 
 	last = 0;
 	i = 0;
-	while (i <= data->nb_coder)
+	while (i < data->nb_coder)
 	{
 		pthread_mutex_lock(&data->coders[i].last_lock);
 		last = data->coders[i].last_compile;
@@ -55,7 +56,8 @@ static int	check_burn_out(t_data *data)
 			data->stop_simu = 1;
 			pthread_mutex_unlock(&data->log_lock);
 			pthread_mutex_lock(&data->log_lock);
-			printf("%lli %i burned out\n", get_time(), data->coders[i].id);
+			time = (get_time() - data->start_time);
+			printf("%lli %i %s\n", time, data->coders[i].id, BURN);
 			pthread_mutex_unlock(&data->log_lock);
 			return (1);
 		}
@@ -85,34 +87,3 @@ void	*go_monitor(void *arg)
 	}
 	return (NULL);
 }
-
-// en gros le monitor :
-// - check tous les codeurs
-// - micro sieste avec usleep de 1/2 ms
-// - recommence
-
-// Pour eviter que le monitor ne lise une heure pendant que le codeur est en
-// train de l'ecrire (=data race), ils utilisent un mutex
-// - le codeur verouille, ecrit l'heure, deverouille
-// - le monitor verouille, lit l'heure, deverouille
-
-// si le temps de la last_compile d'un codeur depasse le time de burn-out
-// change le flag
-// ou si tous les codeurs ont atteint le nb tt de compil
-// pour ce second, vu que c'est TOUS les codeurs, quand un l'atteint le thread
-// codeur doit surement s'arreter et si tous les threads codeurs sont arretes
-// et que le flag de stop est pas enclenche alors ils ont tous reussi
-
-// reflechir au niveau du temps avec gettimeofday
-// on recup les donnees en millisecondes de base
-// donc faut faire le temps en millisecondes
-// gettimeofday donne des secondes et des microsecondes
-// usleep demande des microsecondes
-
-// donc pour utiliser usleep on doit creer un convertisseur en millisecondes
-// pareil pour gettime
-
-// peut creer des fonctions genre use_usleep et gettime qui convertissent tout
-// seul et renvoient le resultat
-// et on met dans datas les donnees en millisecondes comme ca le monitor n'a
-// rien a faire d'autre que comparer avec les donnees de base

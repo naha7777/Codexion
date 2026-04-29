@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 10:50:50 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/29 12:49:29 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@
 # include <stdint.h>
 
 # define MAX_CODERS 200
-
-typedef struct s_queu
-{
-	t_coder			*coder;
-	struct s_queu	*next;
-}					t_queu;
+# define TAKE_DONGLE "has taken a dongle"
+# define COMPIL "is compiling"
+# define DEBUG "is debugging"
+# define REFACT "is refactoring"
+# define BURN "burned out"
 
 typedef struct s_coder
 {
@@ -39,20 +38,19 @@ typedef struct s_coder
 	pthread_mutex_t	last_lock;
 	pthread_mutex_t	nb_lock;
 	struct s_data	*data;
-	struct s_dongle	*left_hand;
-	struct s_dongle	*right_hand;
 }					t_coder;
 
 typedef struct s_dongle
 {
+	int				available;
 	pthread_mutex_t	lock;
 	pthread_cond_t	cond;
 	long long		cooldown_begin;
-	t_queu			*queu;
 }					t_dongle;
 
 typedef struct s_data
 {
+	long long			start_time;
 	int					init_step;
 	int					nb_coder;
 	long long			burn_t;
@@ -80,9 +78,17 @@ void		*ft_calloc(size_t nmemb, size_t size);
 // FILL STRUCTURES
 int			fill_data(char **av, t_data *data);
 
-// ALGOS
-void		*fifo(void *arg);
-void		*edf(void *arg);
+// SIMULATION
+void		*simul(void *arg);
+void		fifo(t_coder *coder);
+void		edf(t_coder *coder);
+
+// DONGLES
+void		i_want_dongle(t_coder *coder);
+void		take_dongle(t_coder *coder, t_dongle *first, t_dongle *sec, t_data *data);
+
+// SIMU UTILS
+void		print_status(t_coder *coder, char *status);
 
 // CLEAN
 void		end_clean(t_data *data);
@@ -99,10 +105,5 @@ void		*go_monitor(void *arg);
 
 // TIME
 long long	get_time(void);
-
-// QUEU
-t_queu	*new_queu(void *coder);
-void	queu_addlast(t_queu **queu, t_queu *new);
-void	queuclear(t_queu **queu);
 
 #endif

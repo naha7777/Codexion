@@ -5,44 +5,45 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 13:20:29 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 11:03:55 by anacharp         ###   ########.fr       */
+/*   Created: 2026/04/29 12:43:01 by anacharp          #+#    #+#             */
+/*   Updated: 2026/04/29 12:47:21 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static int	check_flag(t_coder *coder)
+static void	check_first(t_coder *coder, t_data *data, int id)
 {
-	pthread_mutex_lock(&coder->data->stop_lock);
-	if (coder->data->stop_simu == 1)
-		return (1),
-	pthread_mutex_unlock(&coder->data->stop_lock);
-	return (0);
+	if (data->dongles[id].available == 0)
+		if (data->dongles[data->nb_coder].available == 0)
+			take_dongle(coder, &data->dongles[id], &data->dongles[data->nb_coder], &data);
 }
 
-static int dongle()
+static void	check_last(t_coder *coder, t_data *data, int id)
 {
-	
+	if (data->dongles[id-1].available == 0)
+		if (data->dongles[id].available == 0)
+			take_dongle(coder, &data->dongles[id-1], &data->dongles[id], &data);
 }
 
-
-void	*fifo(void *arg)
+static void	check_else(t_coder *coder, t_data *data, int id)
 {
-	t_coder	*coder;
+	if (data->dongles[id].available == 0)
+			if (data->dongles[id-1].available == 0)
+				take_dongle(coder, &data->dongles[id], &data->dongles[id-1], &data);
+}
+
+void	fifo(t_coder *coder)
+{
 	t_data	*data;
+	int		id;
 
-	coder = (t_coder *)arg;
+	id = coder->id;
 	data = coder->data;
-	while (check_flag(coder) == 0)
-	{
-		usleep(10);
-	}
-	// pthread_mutex_lock(&data->log_lock);
-	// printf("codeur %i: je me reveille\n", coder->id);
-	// pthread_mutex_unlock(&data->log_lock);
-	return (NULL);
+	if (id == 1)
+		check_first(coder, data, id);
+	else if (id == data->nb_coder)
+		check_last(coder, data, id);
+	else
+		check_else(coder, data, id);
 }
-
-// check flag
-// prend dongles si dispo
