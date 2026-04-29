@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 12:49:29 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/29 16:44:52 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct s_coder
 	pthread_mutex_t	last_lock;
 	pthread_mutex_t	nb_lock;
 	struct s_data	*data;
+	struct s_dongle	*first;
+	struct s_dongle	*sec;
 }					t_coder;
 
 typedef struct s_dongle
@@ -45,7 +47,7 @@ typedef struct s_dongle
 	int				available;
 	pthread_mutex_t	lock;
 	pthread_cond_t	cond;
-	long long		cooldown_begin;
+	long long		cld_b;
 }					t_dongle;
 
 typedef struct s_data
@@ -58,7 +60,7 @@ typedef struct s_data
 	long long			debug_t;
 	long long			refact_t;
 	int					tt_compil;
-	long long			dongles_cld;
+	long long			d_cld;
 	char				*schedul;
 	int					stop_simu;
 	pthread_t			monitor_id;
@@ -78,16 +80,19 @@ void		*ft_calloc(size_t nmemb, size_t size);
 // FILL STRUCTURES
 int			fill_data(char **av, t_data *data);
 
-// SIMULATION
-void		*simul(void *arg);
+// ROUTINE
+void		*routine(void *arg);
+
+// SCHEDULERS
 void		fifo(t_coder *coder);
-void		edf(t_coder *coder);
+int			edf(t_coder *coder);
 
 // DONGLES
-void		i_want_dongle(t_coder *coder);
-void		take_dongle(t_coder *coder, t_dongle *first, t_dongle *sec, t_data *data);
+int			i_want_dongle(t_coder *coder);
+void		take_dongle(t_coder *coder, t_dongle *first, t_dongle *sec);
+void		drop_dongles(t_coder *coder);
 
-// SIMU UTILS
+// ROUTINE UTILS
 void		print_status(t_coder *coder, char *status);
 
 // CLEAN

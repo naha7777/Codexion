@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 12:11:30 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/29 16:57:14 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 static int	thread_creation(int i, t_data *data)
 {
 	if (pthread_create(&data->coders[i].thread_id, NULL,
-			fifo, &data->coders[i]) != 0)
+			routine, &data->coders[i]) != 0)
 	{
-		pthread_mutex_lock(&data->stop_lock);
 		data->stop_simu = 1;
-		pthread_mutex_unlock(&data->stop_lock);
 		while (--i >= 0)
 			pthread_join(data->coders[i].thread_id, NULL);
 		return (1);
@@ -85,7 +83,7 @@ int	fill_data(char **av, t_data *data)
 	data->debug_t = ft_atol(av[4]);
 	data->refact_t = ft_atol(av[5]);
 	data->tt_compil = ft_atol(av[6]);
-	data->dongles_cld = ft_atol(av[7]);
+	data->d_cld = ft_atol(av[7]);
 	data->schedul = av[8];
 	data->stop_simu = 0;
 	data->init_step = 0;

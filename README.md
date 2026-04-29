@@ -1,39 +1,8 @@
-Quand le main demarre on est dans le thread (fil d'execution) principal.
-
-
-Quand je cree une thread, je lui envoie une fonction, quand il l'a finit cela signifie qu'il a finit toutes ses taches.
-
-Quand on arrive sur pthread_create (sur la creation d'un thread), le systeme d'exploitation cree une nouvelle unite d'execution (nouveau fil d'execution) independante>
-=> Mon programme a alors 2 bras.
-Le thread principale continue sa roue vers la fin de la fonction alors que le thread va executer la fonction qu'on lui a donne.
-SI le main va trop vite et se finit, il tue tous les autres threads.
-Donc on utilise pthread_join = blooque le thread principal (main) tant que le thread secondaire n'est pas termine.
-
-D'abord on cree les variables :
-```c
-pthread_t tid, tid2
-```
-Puis:
-pthread_create => creer le thread avec en parametre l'adresse de notre variable, NULL, une fonction a effectuer, et l'argument de la fonction
-pthread_join => demander au thread principale d'attendre que les autres threads aient fini leur execution avant de continuer, on met en parametre le nom de la variable et NULL
-
-Avec plusieurs threads :
-- creer d'abord tous les threads
-- puis join tous les threads
-
-Le mutex lui sert a attendre qu'une ressource se libere.
-C'est un verrou.
-On cree d'abord la variable avec pthread_mutex_t et le nom.
-Puis on l'initialise avec pthread_mutex_init avec en parametre l'adresse de la variable et NULL
-Dans la fonction on va pouvoir lock et unlock le mutex/verrou avec pthread_mutex_lock avec en parametre l'adresse de la variable.
-Puis de retour dans notre main on va destroy le mutex avec pthread_mutex_destroy.
-Je pense que c'est le monitor qui va le destroy.
-
 Variables de condition :
 pthread_cond_wait = n'entre pas avant que j'ai fini telle chose.
 Parfois un thread n'a pas juste besoin d'exclusivite avec le mutex, il a aussi besoin d'attendre qu'un evenement particulier se produise.
 Cela evite de laisser le thread tourner et utiliser a 100% ses performances.
-Avec pthread_cond_wait, le thread s'endort en attendant le signal il dverouille le mutex et endort le thread quand il se reveille puis verouille le mutex
+Avec pthread_cond_wait, le thread s'endort en attendant le signal il deverouille le mutex et endort le thread quand il se reveille puis verouille le mutex
 
 pthread_cond_broadcast : reveille tous les threads qui attendent
 
@@ -41,7 +10,7 @@ Il faut mettre un while, pas un if.
 
 Avant d'utiliser une variable de condition, il faut l'initialiser :
 - pthread_cond_t cond = nom
-- pthread_cod_init
+- pthread_cond_init
 
 pthread_cont_timedwait evite l'endormissement a l'infini du thread
 
@@ -56,7 +25,7 @@ Il faut enregistrer le moment de la derniere compile car temps_actuel - temps_de
 
 Quand un codeur veut un dongle, il depose une requete dans la file d'attente (heap) qu'on doit implemter.
 Liste chainee simple pour fifo et HEAP pour EDF
-Le codeur arive et demande le dongle. Si il est pris ou si il y a d'autres gens dans la file d'attente il s'endort avec pthread_cond_wait.
+Le codeur arrive et demande le dongle. Si il est pris ou si il y a d'autres gens dans la file d'attente il s'endort avec pthread_cond_wait.
 
 Quand un dongle est repose, on regarde la file d'attente et on envoie pthread_cond_broadcast pour tous les reveiller. Le 1er peut prendre le dongle et les autres se rendormir.
 

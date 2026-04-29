@@ -14,7 +14,7 @@ C_FILES = 			main.c \
 					cleaner/clean.c \
 					cleaner/destroy.c \
 					simulation/monitor.c \
-					simulation/simul.c \
+					simulation/routine.c \
 					simulation/dongle.c \
 					simulation/fifo.c \
 					simulation/edf.c \
