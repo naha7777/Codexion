@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/28 17:30:00 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/29 11:04:57 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,13 @@ static int	fill_coder(t_data *data)
 	int	i;
 
 	i = 0;
-	data->coders = malloc(sizeof(t_coder) * data->nb_coder);
+	data->coders = ft_calloc(data->nb_coder, sizeof(t_coder));
 	if (!data->coders)
 		return (1);
 	data->init_step++;
 	while (i < data->nb_coder)
 	{
 		data->coders[i].id = i + 1;
-		data->coders[i].nb_compiled = 0;
-		data->coders[i].last_compile = 0;
 		data->coders[i].data = data;
 		if (pthread_mutex_init(&data->coders[i].last_lock, NULL) != 0)
 			return (simple_destroy(i, data), 1);
@@ -72,7 +70,7 @@ static int	fill_dongle(t_data *data)
 	int	i;
 
 	i = 0;
-	data->dongles = malloc(sizeof(t_dongle) * data->nb_coder);
+	data->dongles = ft_calloc(data->nb_coder, sizeof(t_dongle));
 	if (!data->dongles)
 	{
 		printf("Error during memory allocation.");
@@ -88,7 +86,6 @@ static int	fill_dongle(t_data *data)
 			pthread_mutex_destroy(&data->dongles[i].lock);
 			return (destroy(i, data), 1);
 		}
-		data->dongles[i].cooldown_begin = 0;
 		i++;
 	}
 	return (data->init_step++, 0);

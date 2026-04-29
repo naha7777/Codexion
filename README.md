@@ -244,10 +244,7 @@ si il est trop important burnout
 le monitoring recoit un burnout et stop le programme
 si il n'y a pas de burnout le programme se stop lorsque tous les codeurs ont fini de tout compiler
 
-- un endroit ou on met le nombre de codeurs qui ont atteint le nombre de compilation
 - un endroit ou on a une queue des codeurs qui ont fini de refactoring et attende d'avoir un dongle
--
-
 
 
 init_step = 1 : mutex stop_lock initialise --> destroy
