@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 09:54:58 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 11:54:30 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void		print_status(t_coder *coder, char *status);
 int			check_flag(t_coder *coder);
 
 // CLEAN
+void		join_coders(t_data *data);
 void		end_clean(t_data *data);
 void		problem_clean(t_data *data);
 

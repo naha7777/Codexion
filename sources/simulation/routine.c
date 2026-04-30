@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 09:38:22 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 11:25:17 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 static void compil(t_coder *coder)
 {
+	if (check_flag(coder) == 1)
+		return ;
 	print_status(coder, COMPIL);
 	usleep(coder->data->compil_t*1000);
 	pthread_mutex_lock(&coder->nb_lock);
 	coder->nb_compiled++;
 	pthread_mutex_unlock(&coder->nb_lock);
 	pthread_mutex_lock(&coder->last_lock);
-	coder->last_compile = (get_time() - coder->data->start_time);
+	coder->last_compile = (get_sim_time(coder->data));
 	pthread_mutex_unlock(&coder->last_lock);
+	drop_dongles(coder);
 }
 
 void	*routine(void *arg)
@@ -36,7 +39,6 @@ void	*routine(void *arg)
 		if (i_want_dongle(coder) == 0)
 		{
 			compil(coder);
-			drop_dongles(coder);
 			// debug
 			// refactoring
 		}

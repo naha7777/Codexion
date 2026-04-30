@@ -6,24 +6,25 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 09:46:37 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:16:39 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void	join_coders(t_data *data)
+void	join_coders(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->nb_coder)
 	{
+		printf("%i\n\n", i);
 		pthread_join(data->coders[i].thread_id, NULL);
 		i++;
 	}
 	pthread_join(data->monitor_id, NULL);
-	printf("finito");
+	printf("jai fini de join");
 }
 
 static void	destroy_c_m(t_data *data)

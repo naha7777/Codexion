@@ -6,11 +6,25 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 10:13:57 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:14:45 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static void broadcast(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_coder)
+	{
+		// pthread_mutex_lock(&data->dongles[i].lock);
+		pthread_cond_broadcast(&data->dongles[i].cond);
+		// pthread_mutex_unlock(&data->dongles[i].lock);
+		i++;
+	}
+}
 
 static int	check_finish(t_data *data)
 {
@@ -19,7 +33,7 @@ static int	check_finish(t_data *data)
 
 	i = 0;
 	count = 0;
-	while (i <= data->nb_coder)
+	while (i < data->nb_coder)
 	{
 		pthread_mutex_lock(&data->coders[i].nb_lock);
 		if (data->coders[i].nb_compiled >= data->tt_compil)
@@ -27,14 +41,24 @@ static int	check_finish(t_data *data)
 		pthread_mutex_unlock(&data->coders[i].nb_lock);
 		if (count == data->nb_coder)
 		{
-			pthread_mutex_lock(&data->log_lock);
+			pthread_mutex_lock(&data->stop_lock);
 			data->stop_simu = 1;
-			pthread_mutex_unlock(&data->log_lock);
+			pthread_mutex_unlock(&data->stop_lock);
+			broadcast(data);
 			return (1);
 		}
 		i++;
 	}
 	return (0);
+}
+
+static void free_datas(t_coder *coder)
+{
+	if (coder->first == NULL && coder->sec == NULL)
+    	printf("Succès : Les dongles du codeur %d ont été libérés et mis à NULL.\n", coder->id);
+	else
+    	printf("Erreur : Un des pointeurs n'est pas NULL (first: %p, sec: %p)\n",
+            (void*)coder->first, (void*)coder->sec);
 }
 
 static int	check_burn_out(t_data *data)
@@ -53,11 +77,12 @@ static int	check_burn_out(t_data *data)
 		{
 			if ((get_sim_time(data) - last) >= data->burn_t)
 			{
-				pthread_mutex_lock(&data->log_lock);
+				pthread_mutex_lock(&data->stop_lock);
 				data->stop_simu = 1;
-				pthread_mutex_unlock(&data->log_lock);
+				pthread_mutex_unlock(&data->stop_lock);
 				print_status(&data->coders[i], BURN);
-				return (1);
+				broadcast(data);
+				return (free_datas(&data->coders[i]), 1);
 			}
 		}
 		i++;
@@ -78,20 +103,13 @@ static int	simulation(t_data *data)
 void	*go_monitor(void *arg)
 {
 	t_data	*data;
-	int		i;
 
-	i = 0;
 	data = (t_data *)arg;
 	while (simulation(data) == 0)
 	{
 		usleep(1000);
 	}
-	while (i < data->nb_coder)
-	{
-		pthread_mutex_lock(&data->dongles[i].lock);
-		pthread_cond_broadcast(&data->dongles[i].cond);
-		pthread_mutex_unlock(&data->dongles[i].lock);
-		i++;
-	}
+	printf("MONITEUR FINI\n");
+	printf("la");
 	return (NULL);
 }
