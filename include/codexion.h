@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 16:44:52 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 09:54:58 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			fill_data(char **av, t_data *data);
 void		*routine(void *arg);
 
 // SCHEDULERS
-void		fifo(t_coder *coder);
+int			fifo(t_coder *coder);
 int			edf(t_coder *coder);
 
 // DONGLES
@@ -94,6 +94,7 @@ void		drop_dongles(t_coder *coder);
 
 // ROUTINE UTILS
 void		print_status(t_coder *coder, char *status);
+int			check_flag(t_coder *coder);
 
 // CLEAN
 void		end_clean(t_data *data);
@@ -110,5 +111,6 @@ void		*go_monitor(void *arg);
 
 // TIME
 long long	get_time(void);
+long long	get_sim_time(t_data *data);
 
 #endif

@@ -6,27 +6,11 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 17:42:09 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 09:38:22 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-static int	check_flag(t_coder *coder)
-{
-	int i;
-
-	i = 0;
-	pthread_mutex_lock(&coder->data->stop_lock);
-	if (coder->data->stop_simu == 1)
-	{
-		pthread_cond_broadcast(&coder->first->cond);
-		pthread_cond_broadcast(&coder->sec->cond);
-		return (1);
-	}
-	pthread_mutex_unlock(&coder->data->stop_lock);
-	return (0);
-}
 
 static void compil(t_coder *coder)
 {

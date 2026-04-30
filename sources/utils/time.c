@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 17:31:52 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/28 17:46:34 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 09:54:06 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,9 @@ long long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+long long	get_sim_time(t_data *data)
+{
+	return (get_time() - data->start_time);
 }

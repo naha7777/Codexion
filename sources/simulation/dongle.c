@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:31:02 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 17:29:48 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 09:57:22 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	i_want_dongle(t_coder *coder)
 	data = coder->data;
 	if (strcmp(data->schedul, "fifo") == 0)
 	{
-		fifo(coder);
+		if (fifo(coder) == 1)
+			return (1);
+		else
+			return (0);
 	}
 	// else
 	// {

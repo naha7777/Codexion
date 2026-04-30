@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 11:29:23 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/04/30 10:13:57 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	check_burn_out(t_data *data)
 {
 	int	i;
 	int	last;
-	long long time;
 
 	last = 0;
 	i = 0;
@@ -50,16 +49,16 @@ static int	check_burn_out(t_data *data)
 		pthread_mutex_lock(&data->coders[i].last_lock);
 		last = data->coders[i].last_compile;
 		pthread_mutex_unlock(&data->coders[i].last_lock);
-		if ((get_time() - last) >= data->burn_t)
+		if (last != 0)
 		{
-			pthread_mutex_lock(&data->log_lock);
-			data->stop_simu = 1;
-			pthread_mutex_unlock(&data->log_lock);
-			pthread_mutex_lock(&data->log_lock);
-			time = (get_time() - data->start_time);
-			printf("%lli %i %s\n", time, data->coders[i].id, BURN);
-			pthread_mutex_unlock(&data->log_lock);
-			return (1);
+			if ((get_sim_time(data) - last) >= data->burn_t)
+			{
+				pthread_mutex_lock(&data->log_lock);
+				data->stop_simu = 1;
+				pthread_mutex_unlock(&data->log_lock);
+				print_status(&data->coders[i], BURN);
+				return (1);
+			}
 		}
 		i++;
 	}
@@ -79,11 +78,20 @@ static int	simulation(t_data *data)
 void	*go_monitor(void *arg)
 {
 	t_data	*data;
+	int		i;
 
+	i = 0;
 	data = (t_data *)arg;
 	while (simulation(data) == 0)
 	{
 		usleep(1000);
+	}
+	while (i < data->nb_coder)
+	{
+		pthread_mutex_lock(&data->dongles[i].lock);
+		pthread_cond_broadcast(&data->dongles[i].cond);
+		pthread_mutex_unlock(&data->dongles[i].lock);
+		i++;
 	}
 	return (NULL);
 }
