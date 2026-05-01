@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 09:36:23 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 12:10:16 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ int			edf(t_coder *coder);
 
 // DONGLES
 int			i_want_dongle(t_coder *coder);
-void		take_dongle(t_coder *coder, t_dongle *first, t_dongle *sec);
-void		drop_dongles(t_coder *coder);
+int			take_dongle(t_coder *coder, t_dongle *first, t_dongle *sec);
+int			drop_dongles(t_coder *coder);
 
 // ROUTINE UTILS
 void		print_status(t_coder *coder, char *status);
 int			check_flag(t_coder *coder);
-int	check_compil(t_coder *coder, t_data *data);
+int			check_compil(t_coder *coder, t_data *data);
 
 // CLEAN
 void		join_coders(t_data *data);
@@ -114,5 +114,6 @@ void		*go_monitor(void *arg);
 // TIME
 long long	get_time(void);
 long long	get_sim_time(t_data *data);
+void		sleep_timeout(struct timespec *ts);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 09:45:37 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 11:40:39 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void broadcast(t_data *data)
 	i = 0;
 	while (i < data->nb_coder)
 	{
+		// printf("[DEBUG] Monitor trying lock Dongle %d\n", i);
 		// pthread_mutex_lock(&data->dongles[i].lock);
 		pthread_cond_broadcast(&data->dongles[i].cond);
 		// pthread_mutex_unlock(&data->dongles[i].lock);
@@ -99,5 +100,6 @@ void	*go_monitor(void *arg)
 	{
 		usleep(1000);
 	}
+	broadcast(data);
 	return (NULL);
 }

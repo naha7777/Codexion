@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 10:59:13 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 11:16:46 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ static int	compil(t_coder *coder)
 	pthread_mutex_lock(&coder->last_lock);
 	coder->last_compile = (get_sim_time(coder->data));
 	pthread_mutex_unlock(&coder->last_lock);
+	if (check_flag(coder) == 1)
+		return (1);
 	usleep(coder->data->compil_t*1000);
-	drop_dongles(coder);
+	if (drop_dongles(coder) == 1)
+		return (1);
 	return (0);
 }
 
@@ -63,6 +66,8 @@ void	*routine(void *arg)
 			if (debug(coder) == 1)
 				return (NULL);
 			if (refactor(coder) == 1)
+				return (NULL);
+			if (check_flag(coder) == 1)
 				return (NULL);
 		}
 	}

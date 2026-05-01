@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 10:13:33 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 11:44:52 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,19 @@ void	join_coders(t_data *data)
 	int	i;
 
 	i = 0;
+	printf("[MAIN] Waiting for Monitor...\n");
+	pthread_join(data->monitor_id, NULL);
+	printf("[MAIN] Monitor joined! All stop flags should be set.\n");
 	while (i < data->nb_coder)
 	{
-		pthread_join(data->coders[i].thread_id, NULL);
+		printf("[MAIN] Waiting for Coder %d...\n", i + 1);
+		if (data->coders[i].thread_id != 0)
+		{
+			pthread_join(data->coders[i].thread_id, NULL);
+			printf("[MAIN] Coder %d joined!\n", i + 1);
+		}
 		i++;
 	}
-	pthread_join(data->monitor_id, NULL);
 }
 
 static void	destroy_c_m(t_data *data)
@@ -77,6 +84,7 @@ void	problem_clean(t_data *data)
 void	end_clean(t_data *data)
 {
 	join_coders(data);
+	printf("go destroy");
 	mutex_destroy(data);
 	free(data->coders);
 	destroy_c_m(data);
