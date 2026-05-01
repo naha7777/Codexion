@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 12:10:16 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 14:42:04 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void		*go_monitor(void *arg);
 // TIME
 long long	get_time(void);
 long long	get_sim_time(t_data *data);
-void		sleep_timeout(struct timespec *ts);
+// void		sleep_timeout(struct timespec *ts);
 
 #endif

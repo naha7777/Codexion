@@ -6,27 +6,37 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 11:44:52 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:09:10 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static void broadcast(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_coder)
+	{
+		pthread_cond_broadcast(&data->dongles[i].cond);
+		i++;
+	}
+}
 
 void	join_coders(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	printf("[MAIN] Waiting for Monitor...\n");
 	pthread_join(data->monitor_id, NULL);
-	printf("[MAIN] Monitor joined! All stop flags should be set.\n");
 	while (i < data->nb_coder)
 	{
-		printf("[MAIN] Waiting for Coder %d...\n", i + 1);
+		broadcast(data);
 		if (data->coders[i].thread_id != 0)
 		{
+			broadcast(data);
 			pthread_join(data->coders[i].thread_id, NULL);
-			printf("[MAIN] Coder %d joined!\n", i + 1);
 		}
 		i++;
 	}
@@ -84,7 +94,6 @@ void	problem_clean(t_data *data)
 void	end_clean(t_data *data)
 {
 	join_coders(data);
-	printf("go destroy");
 	mutex_destroy(data);
 	free(data->coders);
 	destroy_c_m(data);

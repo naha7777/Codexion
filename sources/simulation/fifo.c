@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:43:01 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 12:18:39 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:08:35 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,16 @@ static int	wait(t_coder *c, t_dongle *f, t_dongle *n, t_data *d)
 static int	check_available(t_coder *coder, t_data *data, t_dongle *first,
 	t_dongle *sec)
 {
-	struct	timespec ts;
-
 	if (check_flag(coder) == 1)
 		return (1);
-	printf("[DEBUG] Coder %d trying lock First (%p)\n", coder->id, (void*)first);
 	pthread_mutex_lock(&first->lock);
 	if (check_flag(coder) == 1)
 		return (pthread_mutex_unlock(&first->lock), 1);
-	printf("[DEBUG] Coder %d trying lock Sec (%p)\n", coder->id, (void*)sec);
 	pthread_mutex_lock(&sec->lock);
 	while (wait(coder, first, sec, data) == 1)
 	{
-		printf("[DEBUG] Coder %d sleeping on First\n", coder->id);
 		pthread_mutex_unlock(&sec->lock);
-		sleep_timeout(&ts);
-		pthread_cond_timedwait(&first->cond, &first->lock, &ts);
+		pthread_cond_wait(&first->cond, &first->lock);
 		if (check_flag(coder) == 1)
 			return(pthread_mutex_unlock(&first->lock), 1);
 		pthread_mutex_lock(&sec->lock);

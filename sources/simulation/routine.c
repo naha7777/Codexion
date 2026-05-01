@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 11:16:46 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:06:25 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	*routine(void *arg)
 	usleep(1000);
 	if (check_flag(coder) == 0)
 	{
+		if (check_compil(coder, data) == 1)
+			return (NULL);
 		while (i_want_dongle(coder) == 0 && check_compil(coder, data) == 0)
 		{
 			if (compil(coder) == 1)
