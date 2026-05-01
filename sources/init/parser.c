@@ -23,7 +23,20 @@
 
 #include "codexion.h"
 
-static int	check_nb_coders(int nb_coders);
+static int	check_nb_coders(int nb_coders)
+{
+	if (nb_coders > MAX_CODERS)
+	{
+		printf("Too many coders. Max is 200. Kill some coders. Please");
+		return (1);
+	}
+	else if (nb_coders < 2)
+	{
+		printf("You must have at least 2 coder. Please.");
+		return (1);
+	}
+	return (0);
+}
 
 static int	parse_nb(char *arg)
 {
@@ -91,20 +104,5 @@ int	parser(int ac, char **av)
 	s = parse_schedule(av[ac - 1]);
 	if (s == NULL)
 		return (1);
-	return (0);
-}
-
-static int	check_nb_coders(int nb_coders)
-{
-	if (nb_coders > MAX_CODERS)
-	{
-		printf("Too many coders. Max is 200. Kill some coders. Please");
-		return (1);
-	}
-	else if (nb_coders == 0)
-	{
-		printf("You must have at least 1 coder. Please.");
-		return (1);
-	}
 	return (0);
 }

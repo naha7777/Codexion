@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:31:02 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 15:06:35 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:38:38 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	drop_dongles(t_coder *coder)
 	pthread_mutex_unlock(&coder->sec->lock);
 	coder->first = NULL;
 	coder->sec = NULL;
+	usleep(2000);
 	return (0);
 }
 

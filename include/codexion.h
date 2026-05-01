@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 14:42:04 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:12:36 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdint.h>
 
 # define MAX_CODERS 200
+# define MIN_CODERS 2
 # define TAKE_DONGLE "has taken a dongle"
 # define COMPIL "is compiling"
 # define DEBUG "is debugging"

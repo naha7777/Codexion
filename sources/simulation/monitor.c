@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 15:08:27 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:13:01 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ static void broadcast(t_data *data)
 	i = 0;
 	while (i < data->nb_coder)
 	{
+		pthread_mutex_lock(&data->dongles[i].lock);
 		pthread_cond_broadcast(&data->dongles[i].cond);
+		pthread_mutex_unlock(&data->dongles[i].lock);
 		i++;
 	}
 }
