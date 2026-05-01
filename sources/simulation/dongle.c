@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:31:02 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 11:37:00 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 09:26:53 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,14 @@ void	drop_dongles(t_coder *coder)
 {
 	pthread_mutex_lock(&coder->first->lock);
 	coder->first->available = 0;
-	coder->first->cld_b = get_time() - coder->data->start_time;
+	coder->first->cld_b = get_sim_time(coder->data);
 	pthread_cond_broadcast(&coder->first->cond);
 	pthread_mutex_unlock(&coder->first->lock);
 	pthread_mutex_lock(&coder->sec->lock);
 	coder->sec->available = 0;
-	coder->sec->cld_b = get_time() - coder->data->start_time;
+	coder->sec->cld_b = get_sim_time(coder->data);
 	pthread_cond_broadcast(&coder->sec->cond);
 	pthread_mutex_unlock(&coder->sec->lock);
-
-	pthread_mutex_lock(&coder->data->log_lock);
-	printf("DROP DONGLES\n");
-	pthread_mutex_unlock(&coder->data->log_lock);
 	coder->first = NULL;
 	coder->sec = NULL;
 }

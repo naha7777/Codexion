@@ -6,25 +6,44 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 11:25:17 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 10:59:13 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void compil(t_coder *coder)
+static int	compil(t_coder *coder)
 {
 	if (check_flag(coder) == 1)
-		return ;
+		return (1);
 	print_status(coder, COMPIL);
-	usleep(coder->data->compil_t*1000);
 	pthread_mutex_lock(&coder->nb_lock);
 	coder->nb_compiled++;
 	pthread_mutex_unlock(&coder->nb_lock);
 	pthread_mutex_lock(&coder->last_lock);
 	coder->last_compile = (get_sim_time(coder->data));
 	pthread_mutex_unlock(&coder->last_lock);
+	usleep(coder->data->compil_t*1000);
 	drop_dongles(coder);
+	return (0);
+}
+
+static int	debug(t_coder *coder)
+{
+	if (check_flag(coder) == 1)
+		return (1);
+	print_status(coder, DEBUG);
+	usleep(coder->data->debug_t*1000);
+	return (0);
+}
+
+static int	refactor(t_coder *coder)
+{
+	if (check_flag(coder) == 1)
+		return (1);
+	print_status(coder, REFACT);
+	usleep(coder->data->refact_t*1000);
+	return (0);
 }
 
 void	*routine(void *arg)
@@ -34,14 +53,20 @@ void	*routine(void *arg)
 
 	coder = (t_coder *)arg;
 	data = coder->data;
-	while (check_flag(coder) == 0)
+	usleep(1000);
+	if (check_flag(coder) == 0)
 	{
-		if (i_want_dongle(coder) == 0)
+		while (i_want_dongle(coder) == 0 && check_compil(coder, data) == 0)
 		{
-			compil(coder);
-			// debug
-			// refactoring
+			if (compil(coder) == 1)
+				return (NULL);
+			if (debug(coder) == 1)
+				return (NULL);
+			if (refactor(coder) == 1)
+				return (NULL);
 		}
 	}
 	return (NULL);
 }
+// jai change le while et le if
+// while (check_compil(coder, data) == 0)

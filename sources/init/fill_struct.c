@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/29 16:57:14 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 11:00:14 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	fill_coder(t_data *data)
 	data->init_step++;
 	while (i < data->nb_coder)
 	{
+		data->coders[i].last_compile = 1;
 		data->coders[i].id = i + 1;
 		data->coders[i].data = data;
 		if (pthread_mutex_init(&data->coders[i].last_lock, NULL) != 0)

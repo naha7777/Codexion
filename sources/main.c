@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 13:49:24 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 12:15:57 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 10:49:37 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ int	main(int ac, char **av)
 		return (1);
 	if (fill_data(av, &data) != 0)
 		return (problem_clean(&data), 1);
-	printf("MAIN : JE VAIS JOIN\n");
-	join_coders(&data);
-	printf("go clean\n");
 	end_clean(&data);
 	return (0);
 }

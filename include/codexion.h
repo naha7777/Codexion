@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 11:54:30 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 09:36:23 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void		drop_dongles(t_coder *coder);
 // ROUTINE UTILS
 void		print_status(t_coder *coder, char *status);
 int			check_flag(t_coder *coder);
+int	check_compil(t_coder *coder, t_data *data);
 
 // CLEAN
 void		join_coders(t_data *data);

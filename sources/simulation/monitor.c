@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/30 12:14:45 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/01 09:45:37 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,12 @@ static int	check_finish(t_data *data)
 			pthread_mutex_lock(&data->stop_lock);
 			data->stop_simu = 1;
 			pthread_mutex_unlock(&data->stop_lock);
-			broadcast(data);
-			return (1);
+
+			return (broadcast(data), 1);
 		}
 		i++;
 	}
 	return (0);
-}
-
-static void free_datas(t_coder *coder)
-{
-	if (coder->first == NULL && coder->sec == NULL)
-    	printf("Succès : Les dongles du codeur %d ont été libérés et mis à NULL.\n", coder->id);
-	else
-    	printf("Erreur : Un des pointeurs n'est pas NULL (first: %p, sec: %p)\n",
-            (void*)coder->first, (void*)coder->sec);
 }
 
 static int	check_burn_out(t_data *data)
@@ -75,14 +66,13 @@ static int	check_burn_out(t_data *data)
 		pthread_mutex_unlock(&data->coders[i].last_lock);
 		if (last != 0)
 		{
-			if ((get_sim_time(data) - last) >= data->burn_t)
+			if ((get_sim_time(data) - last) >= data->burn_t && check_compil(&data->coders[i], data) == 0)
 			{
 				pthread_mutex_lock(&data->stop_lock);
 				data->stop_simu = 1;
 				pthread_mutex_unlock(&data->stop_lock);
 				print_status(&data->coders[i], BURN);
-				broadcast(data);
-				return (free_datas(&data->coders[i]), 1);
+				return (broadcast(data), 1);
 			}
 		}
 		i++;
@@ -109,7 +99,5 @@ void	*go_monitor(void *arg)
 	{
 		usleep(1000);
 	}
-	printf("MONITEUR FINI\n");
-	printf("la");
 	return (NULL);
 }
