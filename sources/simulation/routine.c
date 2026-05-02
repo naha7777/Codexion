@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 15:06:25 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:15:44 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,27 @@ void	*routine(void *arg)
 
 	coder = (t_coder *)arg;
 	data = coder->data;
-	usleep(1000);
+	usleep(coder->id * 10000);
+	pthread_mutex_lock(&coder->last_lock);
+	coder->last_compile = get_sim_time(coder->data);
+	pthread_mutex_unlock(&coder->last_lock);
 	if (check_flag(coder) == 0)
 	{
 		if (check_compil(coder, data) == 1)
-			return (NULL);
+			return (broadcast(data), NULL);
 		while (i_want_dongle(coder) == 0 && check_compil(coder, data) == 0)
 		{
 			if (compil(coder) == 1)
-				return (NULL);
+				return (broadcast(data), NULL);
 			if (debug(coder) == 1)
-				return (NULL);
+				return (broadcast(data), NULL);
 			if (refactor(coder) == 1)
-				return (NULL);
+				return (broadcast(data), NULL);
 			if (check_flag(coder) == 1)
-				return (NULL);
+				return (broadcast(data), NULL);
+			usleep(coder->id * 500);
 		}
 	}
-	return (NULL);
+	return (broadcast(data), NULL);
 }
-// jai change le while et le if
-// while (check_compil(coder, data) == 0)
+

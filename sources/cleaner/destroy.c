@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 17:28:07 by anacharp          #+#    #+#             */
-/*   Updated: 2026/04/28 17:46:19 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 15:33:31 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,8 @@ void	thread_fail(int i, t_data *data)
 	}
 }
 
-void	destroy(int i, t_data *data)
+void	destroy(t_data *data)
 {
-	while (--i >= 0)
-	{
-		pthread_mutex_destroy(&data->dongles[i].lock);
-		pthread_cond_destroy(&data->dongles[i].cond);
-	}
+	pthread_mutex_destroy(&data->global_lock);
+	pthread_cond_destroy(&data->global_cond);
 }

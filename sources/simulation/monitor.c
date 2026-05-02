@@ -6,25 +6,11 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 16:13:01 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:08:15 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-static void broadcast(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_coder)
-	{
-		pthread_mutex_lock(&data->dongles[i].lock);
-		pthread_cond_broadcast(&data->dongles[i].cond);
-		pthread_mutex_unlock(&data->dongles[i].lock);
-		i++;
-	}
-}
 
 static int	check_finish(t_data *data)
 {
@@ -55,7 +41,7 @@ static int	check_finish(t_data *data)
 static int	check_burn_out(t_data *data)
 {
 	int	i;
-	int	last;
+	long long	last;
 
 	last = 0;
 	i = 0;
@@ -98,6 +84,7 @@ void	*go_monitor(void *arg)
 	while (simulation(data) == 0)
 	{
 		usleep(1000);
+		broadcast(data);
 	}
 	broadcast(data);
 	return (NULL);

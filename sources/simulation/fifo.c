@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:43:01 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 16:38:50 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:12:24 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ static int	wait(t_coder *c, t_dongle *f, t_dongle *n, t_data *d)
 
 	if (check_flag(c) == 1)
 		return (0);
+	if (f->nb_took == 0 && n->nb_took == 0)
+		return (0);
 	if (f->available == 1 || n->available == 1)
 		return (1);
-	now = get_time();
-	if ((now - f->cld_b < d->d_cld) || (now - n->cld_b < d->d_cld))
-		return (1);
+	now = get_sim_time(d);
+	if (f->nb_took != 0 )
+		if (now - f->cld_b < d->d_cld)
+			return (1);
+	if (n->nb_took != 0)
+		if (now - n->cld_b < d->d_cld)
+			return (1);
 	return (0);
 }
 
@@ -31,27 +37,24 @@ static int	check_available(t_coder *coder, t_data *data, t_dongle *first,
 {
 	if (check_flag(coder) == 1)
 		return (1);
-	pthread_mutex_lock(&first->lock);
-	if (check_flag(coder) == 1)
-		return (pthread_mutex_unlock(&first->lock), 1);
-	pthread_mutex_lock(&sec->lock);
+	pthread_mutex_lock(&data->global_lock);
 	while (wait(coder, first, sec, data) == 1)
 	{
-		pthread_mutex_unlock(&sec->lock);
-		pthread_cond_wait(&first->cond, &first->lock);
+		// printf("coder %d attend f=[%ld] avail=%d n=[%ld] avail=%d\n",
+		// coder->id,
+		// first - data->dongles,
+		// first->available,
+		// sec - data->dongles,
+		// sec->available);
+		pthread_cond_wait(&data->global_cond, &data->global_lock);
 		if (check_flag(coder) == 1)
-			return(pthread_mutex_unlock(&first->lock), 1);
-		pthread_mutex_lock(&sec->lock);
+			return(pthread_mutex_unlock(&data->global_lock), 1);
 	}
 	if (check_flag(coder) == 1)
-	{
-		pthread_mutex_unlock(&first->lock);
-		return (pthread_mutex_unlock(&sec->lock), 1);
-	}
+		return (pthread_mutex_unlock(&data->global_lock), 1);
 	if (take_dongle(coder, first, sec) == 1)
-		return (pthread_mutex_unlock(&first->lock), 1);
-	pthread_mutex_unlock(&first->lock);
-	return (pthread_mutex_unlock(&sec->lock), 0);
+		return (pthread_mutex_unlock(&data->global_lock), 1);
+	return (pthread_mutex_unlock(&data->global_lock), 0);
 }
 
 static int find_low(t_dongle *first, t_dongle *sec, t_coder *coder)
@@ -72,7 +75,6 @@ static int find_low(t_dongle *first, t_dongle *sec, t_coder *coder)
 	if (check_available(coder, coder->data, low, high) == 1)
 			return (1);
 	return (0);
-
 }
 
 static int	check_id(int id, t_coder *coder, t_data *data)
@@ -96,7 +98,7 @@ static int	check_id(int id, t_coder *coder, t_data *data)
 		sec = &data->dongles[id-2];
 	}
 	if (find_low(first, sec, coder) == 1)
-			return (1);
+		return (1);
 	return (0);
 }
 

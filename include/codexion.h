@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 15:12:36 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:48:49 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ typedef struct s_coder
 typedef struct s_dongle
 {
 	int				available;
-	pthread_mutex_t	lock;
-	pthread_cond_t	cond;
+	int				nb_took;
 	long long		cld_b;
 }					t_dongle;
 
@@ -64,6 +63,8 @@ typedef struct s_data
 	long long			d_cld;
 	char				*schedul;
 	int					stop_simu;
+	pthread_cond_t		global_cond;
+	pthread_mutex_t		global_lock;
 	pthread_t			monitor_id;
 	pthread_mutex_t		stop_lock;
 	pthread_mutex_t		log_lock;
@@ -97,6 +98,7 @@ int			drop_dongles(t_coder *coder);
 void		print_status(t_coder *coder, char *status);
 int			check_flag(t_coder *coder);
 int			check_compil(t_coder *coder, t_data *data);
+void		broadcast(t_data *data);
 
 // CLEAN
 void		join_coders(t_data *data);
@@ -107,7 +109,7 @@ void		problem_clean(t_data *data);
 void		double_destroy(int i, t_data *data);
 void		simple_destroy(int i, t_data *data);
 void		thread_fail(int i, t_data *data);
-void		destroy(int i, t_data *data);
+void		destroy(t_data *data);
 
 // MONITOR
 void		*go_monitor(void *arg);

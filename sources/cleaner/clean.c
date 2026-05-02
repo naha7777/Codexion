@@ -6,25 +6,11 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:14:47 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 16:13:12 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:49:23 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-static void broadcast(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_coder)
-	{
-		pthread_mutex_lock(&data->dongles[i].lock);
-		pthread_cond_broadcast(&data->dongles[i].cond);
-		pthread_mutex_unlock(&data->dongles[i].lock);
-		i++;
-	}
-}
 
 void	join_coders(t_data *data)
 {
@@ -34,7 +20,6 @@ void	join_coders(t_data *data)
 	pthread_join(data->monitor_id, NULL);
 	while (i < data->nb_coder)
 	{
-		broadcast(data);
 		if (data->coders[i].thread_id != 0)
 		{
 			broadcast(data);
@@ -46,15 +31,8 @@ void	join_coders(t_data *data)
 
 static void	destroy_c_m(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->nb_coder)
-	{
-		pthread_mutex_destroy(&data->dongles[i].lock);
-		pthread_cond_destroy(&data->dongles[i].cond);
-		i++;
-	}
+	pthread_mutex_destroy(&data->global_lock);
+	pthread_cond_destroy(&data->global_cond);
 }
 
 static void	mutex_destroy(t_data *data)

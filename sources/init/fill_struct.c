@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 11:00:14 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:09:33 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	fill_coder(t_data *data)
 	data->init_step++;
 	while (i < data->nb_coder)
 	{
-		data->coders[i].last_compile = 1;
 		data->coders[i].id = i + 1;
 		data->coders[i].data = data;
 		if (pthread_mutex_init(&data->coders[i].last_lock, NULL) != 0)
@@ -62,16 +61,12 @@ static int	fill_dongle(t_data *data)
 		return (1);
 	}
 	data->init_step++;
-	while (i < data->nb_coder)
+	if (pthread_mutex_init(&data->global_lock, NULL) != 0)
+		return (destroy(data), 1);
+	if (pthread_cond_init(&data->global_cond, NULL) != 0)
 	{
-		if (pthread_mutex_init(&data->dongles[i].lock, NULL) != 0)
-			return (destroy(i, data), 1);
-		if (pthread_cond_init(&data->dongles[i].cond, NULL) != 0)
-		{
-			pthread_mutex_destroy(&data->dongles[i].lock);
-			return (destroy(i, data), 1);
-		}
-		i++;
+		pthread_mutex_destroy(&data->global_lock);
+		return (destroy(data), 1);
 	}
 	return (data->init_step++, 0);
 }

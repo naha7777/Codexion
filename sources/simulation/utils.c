@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:33:23 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/01 16:28:57 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:53:55 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,16 @@ int	check_flag(t_coder *coder)
 	return (0);
 }
 
+void	broadcast(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_coder)
+	{
+		pthread_mutex_lock(&data->global_lock);
+		pthread_cond_broadcast(&data->global_cond);
+		pthread_mutex_unlock(&data->global_lock);
+		i++;
+	}
+}
