@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/02 17:15:44 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:23:22 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	compil(t_coder *coder)
 	pthread_mutex_unlock(&coder->last_lock);
 	if (check_flag(coder) == 1)
 		return (1);
-	usleep(coder->data->compil_t*1000);
+	usleep(coder->data->compil_t * 1000);
 	if (drop_dongles(coder) == 1)
 		return (1);
 	return (0);
@@ -36,7 +36,7 @@ static int	debug(t_coder *coder)
 	if (check_flag(coder) == 1)
 		return (1);
 	print_status(coder, DEBUG);
-	usleep(coder->data->debug_t*1000);
+	usleep(coder->data->debug_t * 1000);
 	return (0);
 }
 
@@ -45,8 +45,15 @@ static int	refactor(t_coder *coder)
 	if (check_flag(coder) == 1)
 		return (1);
 	print_status(coder, REFACT);
-	usleep(coder->data->refact_t*1000);
+	usleep(coder->data->refact_t * 1000);
 	return (0);
+}
+
+static void	set_last_compile(t_coder *coder)
+{
+	pthread_mutex_lock(&coder->last_lock);
+	coder->last_compile = get_sim_time(coder->data);
+	pthread_mutex_unlock(&coder->last_lock);
 }
 
 void	*routine(void *arg)
@@ -57,9 +64,7 @@ void	*routine(void *arg)
 	coder = (t_coder *)arg;
 	data = coder->data;
 	usleep(coder->id * 10000);
-	pthread_mutex_lock(&coder->last_lock);
-	coder->last_compile = get_sim_time(coder->data);
-	pthread_mutex_unlock(&coder->last_lock);
+	set_last_compile(coder);
 	if (check_flag(coder) == 0)
 	{
 		if (check_compil(coder, data) == 1)
@@ -79,4 +84,3 @@ void	*routine(void *arg)
 	}
 	return (broadcast(data), NULL);
 }
-

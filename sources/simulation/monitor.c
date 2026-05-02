@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:20:31 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/02 17:08:15 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:18:50 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	check_finish(t_data *data)
 			pthread_mutex_lock(&data->stop_lock);
 			data->stop_simu = 1;
 			pthread_mutex_unlock(&data->stop_lock);
-
 			return (broadcast(data), 1);
 		}
 		i++;
@@ -40,7 +39,7 @@ static int	check_finish(t_data *data)
 
 static int	check_burn_out(t_data *data)
 {
-	int	i;
+	int			i;
 	long long	last;
 
 	last = 0;
@@ -52,7 +51,8 @@ static int	check_burn_out(t_data *data)
 		pthread_mutex_unlock(&data->coders[i].last_lock);
 		if (last != 0)
 		{
-			if ((get_sim_time(data) - last) >= data->burn_t && check_compil(&data->coders[i], data) == 0)
+			if ((get_sim_time(data) - last) >= data->burn_t
+				&& check_compil(&data->coders[i], data) == 0)
 			{
 				pthread_mutex_lock(&data->stop_lock);
 				data->stop_simu = 1;

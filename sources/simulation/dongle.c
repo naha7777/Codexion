@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:31:02 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/02 16:43:48 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:24:31 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	drop_dongles(t_coder *coder)
 {
-	// if (check_flag(coder) == 1)
-	// 	return (1);
 	if (!coder->first || !coder->sec)
-        return (0);
+		return (0);
 	pthread_mutex_lock(&coder->data->global_lock);
 	coder->first->available = 0;
 	coder->first->cld_b = get_sim_time(coder->data);
@@ -27,7 +25,6 @@ int	drop_dongles(t_coder *coder)
 	pthread_mutex_unlock(&coder->data->global_lock);
 	coder->first = NULL;
 	coder->sec = NULL;
-	// usleep(50000);
 	return (0);
 }
 
@@ -62,10 +59,12 @@ int	i_want_dongle(t_coder *coder)
 		else
 			return (0);
 	}
-	// else
-	// {
-	// 	if (edf(coder) != 0)
-	// 		return (1);
-	// }
+	else
+	{
+		if (edf(coder) == 1)
+			return (1);
+		else
+			return (0);
+	}
 	return (0);
 }
