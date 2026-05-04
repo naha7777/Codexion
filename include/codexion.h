@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/02 17:25:41 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:30:18 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@
 # define REFACT "is refactoring"
 # define BURN "burned out"
 
+typedef struct s_node
+{
+	int			coder_id;
+	long long	deadline;
+}				t_node;
+
+typedef struct s_heap
+{
+	t_node	array[2];
+	int		size;
+}			t_heap;
+
 typedef struct s_coder
 {
 	int				id;
@@ -48,6 +60,7 @@ typedef struct s_dongle
 	int				available;
 	int				nb_took;
 	long long		cld_b;
+	t_heap			heap;
 }					t_dongle;
 
 typedef struct s_data
@@ -118,5 +131,10 @@ void		*go_monitor(void *arg);
 long long	get_time(void);
 long long	get_sim_time(t_data *data);
 // void		sleep_timeout(struct timespec *ts);
+
+// HEAP
+void		heap_push(t_heap *h, int id, long long deadline);
+int			heap_peek(t_heap *h);
+void		heap_pop(t_heap *h);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:08:53 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/02 17:23:22 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:08:21 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	*routine(void *arg)
 
 	coder = (t_coder *)arg;
 	data = coder->data;
-	usleep(coder->id * 10000);
 	set_last_compile(coder);
+	usleep(coder->id * 10000);
 	if (check_flag(coder) == 0)
 	{
 		if (check_compil(coder, data) == 1)
@@ -79,7 +79,8 @@ void	*routine(void *arg)
 				return (broadcast(data), NULL);
 			if (check_flag(coder) == 1)
 				return (broadcast(data), NULL);
-			usleep(coder->id * 500);
+			if (strcmp(data->schedul, "fifo") == 0)
+				usleep(coder->id * 500);
 		}
 	}
 	return (broadcast(data), NULL);

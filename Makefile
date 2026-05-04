@@ -18,7 +18,8 @@ C_FILES = 			main.c \
 					simulation/dongle.c \
 					simulation/fifo.c \
 					simulation/edf.c \
-					simulation/utils.c
+					simulation/utils.c \
+					simulation/heap.c
 
 SRC = 				$(addprefix $(SRCS_DIR)/, $(C_FILES))
 
