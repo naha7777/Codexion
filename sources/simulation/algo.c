@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algos_utils.c                                      :+:      :+:    :+:   */
+/*   algo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 08:58:56 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 13:54:27 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:15:02 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	wait(t_coder *c, t_dongle *f, t_dongle *n, t_data *d)
 {
 	long	now;
+
 	if (c->id != d->heap.array[0].coder_id)
 		return (1);
 	if (check_flag(c) == 1)
