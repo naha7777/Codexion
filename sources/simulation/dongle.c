@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:31:02 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/04 11:26:50 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 09:38:11 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,11 @@ int	take_dongle(t_coder *coder, t_dongle *first, t_dongle *sec)
 	print_status(coder, TAKE_DONGLE);
 	first->available = 1;
 	first->nb_took ++;
-	if (strcmp(coder->data->schedul, "edf") == 0)
-		heap_pop(&coder->first->heap);
 	print_status(coder, TAKE_DONGLE);
 	sec->available = 1;
 	sec->nb_took ++;
 	if (strcmp(coder->data->schedul, "edf") == 0)
-		heap_pop(&coder->sec->heap);
+		heap_last(&coder->data->heap);
 	return (0);
 }
 

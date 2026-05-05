@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/04 11:30:18 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 09:30:12 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_node
 
 typedef struct s_heap
 {
-	t_node	array[2];
+	t_node	array[MAX_CODERS];
 	int		size;
 }			t_heap;
 
@@ -60,11 +60,11 @@ typedef struct s_dongle
 	int				available;
 	int				nb_took;
 	long long		cld_b;
-	t_heap			heap;
 }					t_dongle;
 
 typedef struct s_data
 {
+	t_heap				heap;
 	long long			start_time;
 	int					init_step;
 	int					nb_coder;
@@ -101,6 +101,7 @@ void		*routine(void *arg);
 // SCHEDULERS
 int			fifo(t_coder *coder);
 int			edf(t_coder *coder);
+int			check_id(int id, t_coder *coder, t_data *data);
 
 // DONGLES
 int			i_want_dongle(t_coder *coder);
@@ -133,8 +134,8 @@ long long	get_sim_time(t_data *data);
 // void		sleep_timeout(struct timespec *ts);
 
 // HEAP
-void		heap_push(t_heap *h, int id, long long deadline);
+// void		heap_push(t_heap *h, int id, long long deadline);
 int			heap_peek(t_heap *h);
-void		heap_pop(t_heap *h);
+void		heap_last(t_heap *h);
 
 #endif

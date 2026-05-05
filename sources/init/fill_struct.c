@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/02 17:09:33 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 09:48:39 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,46 @@ static int	thread_creation(int i, t_data *data)
 		return (1);
 	}
 	return (0);
+}
+
+// static void	test(t_data *data)
+// {
+// 	int	i;
+// 	i = 0;
+// 	while (data->heap.array[i].coder_id != 0)
+// 	{
+// 		printf("[%i]", data->heap.array[i].coder_id);
+// 		i++;
+// 	}
+// }
+
+static void	fill_heap(t_data *data)
+{
+	int	i;
+	int	y;
+
+	i = -1;
+	y = 0;
+	while (i++ < data->nb_coder - 1)
+	{
+		if (data->coders[i].id % 2 != 0)
+		{
+			data->heap.array[y].coder_id = data->coders[i].id;
+			data->heap.size ++;
+			y++;
+		}
+	}
+	i = -1;
+	while (i++ < data->nb_coder - 1)
+	{
+		if (data->coders[i].id % 2 == 0)
+		{
+			data->heap.array[y].coder_id = data->coders[i].id;
+			data->heap.size ++;
+			y++;
+		}
+	}
+	// test(data);
 }
 
 static int	fill_coder(t_data *data)
@@ -46,6 +86,8 @@ static int	fill_coder(t_data *data)
 			return (thread_fail(i, data), 1);
 		i++;
 	}
+	if (strcmp(data->schedul, "edf") == 0)
+		fill_heap(data);
 	return (data->init_step++, 0);
 }
 
