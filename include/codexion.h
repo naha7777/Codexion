@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 14:33:49 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:26:28 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,8 @@ void		*go_monitor(void *arg);
 // TIME
 long long	get_time(void);
 long long	get_sim_time(t_data *data);
-// void		sleep_timeout(struct timespec *ts);
 
 // HEAP
-// void		heap_push(t_heap *h, int id, long long deadline);
 int			heap_peek(t_heap *h);
 void		heap_last(t_heap *h);
 

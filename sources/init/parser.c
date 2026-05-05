@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 13:48:56 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 13:40:38 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:38:25 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	check_nb_coders(int nb_coders)
 {
 	if (nb_coders > MAX_CODERS)
 	{
-		printf("Too many coders. Max is 200. Kill some coders. Please");
+		printf("Too many coders. Max is 200. Kill some coders. Please\n");
 		return (1);
 	}
 	else if (nb_coders < 2)
 	{
-		printf("You must have at least 2 coder. Please.");
+		printf("You must have at least 2 coder. Please.\n");
 		return (1);
 	}
 	return (0);
@@ -35,14 +35,14 @@ static int	parse_nb(char *arg)
 	i = 0;
 	if (arg[i] == '-' || !arg[i])
 	{
-		printf("Invalid value '%s', put a positive integer", arg);
+		printf("Invalid value '%s', put a positive integer\n", arg);
 		return (INT_MIN);
 	}
 	while (arg[i])
 	{
 		if (arg[i] < '0' || arg[i] > '9')
 		{
-			printf("Invalid value '%s', put an integer", arg);
+			printf("Invalid value '%s', put an integer\n", arg);
 			return (INT_MIN);
 		}
 		i++;
@@ -50,7 +50,7 @@ static int	parse_nb(char *arg)
 	nb = ft_atol(arg);
 	if (nb > INT_MAX || nb < INT_MIN)
 	{
-		printf("Invalid value '%s'", arg);
+		printf("Invalid value '%s'\n", arg);
 		return (INT_MIN);
 	}
 	return (nb);
@@ -65,7 +65,7 @@ static char	*parse_schedule(char *arg)
 	edf = "edf";
 	if (strcmp(arg, fifo) == 0 || strcmp(arg, edf) == 0)
 		return (arg);
-	printf("Invalid schedule '%s': choose between 'fifo' and 'edf'", arg);
+	printf("Invalid schedule '%s': choose between 'fifo' and 'edf'\n", arg);
 	return (NULL);
 }
 
@@ -77,7 +77,7 @@ int	parser(int ac, char **av)
 
 	if (ac < 9 || ac > 9)
 	{
-		printf("Invalid number of arguments: %i", ac);
+		printf("Invalid number of arguments: %i\n", ac);
 		return (1);
 	}
 	i = 1;

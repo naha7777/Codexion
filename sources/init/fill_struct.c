@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 15:18:02 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:38:05 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	fill_dongle(t_data *data)
 	data->dongles = ft_calloc(data->nb_coder, sizeof(t_dongle));
 	if (!data->dongles)
 	{
-		printf("Error during memory allocation.");
+		printf("Error during memory allocation.\n");
 		return (1);
 	}
 	data->init_step++;
@@ -99,8 +99,8 @@ int	fill_data(char **av, t_data *data)
 	if (fill_coder(data) != 0)
 		return (1);
 	if (pthread_create(&data->monitor_id, NULL, go_monitor, data) != 0)
-		return (1);
+		return (printf("Error during thread creation.\n"), 1);
 	if (thread_creation(data) != 0)
-		return (1);
+		return (printf("Error during thread creation.\n"), 1);
 	return (0);
 }
