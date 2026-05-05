@@ -1,11 +1,9 @@
-- 20 dans printf?
-- changer fifo en une heap simple pour qu'il soit giga nul
-
-
 _This project has been created as part of the 42 curriculum by anacharp._
 
 # Codexion
 ## Description
+
+
 Presents the project, including goals and brief overview
 
 ## Instructions

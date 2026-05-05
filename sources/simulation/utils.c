@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:33:23 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 15:07:17 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:18:26 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ int	check_compil(t_coder *coder, t_data *data)
 
 int	check_flag(t_coder *coder)
 {
-	int	i;
-
-	i = 0;
 	if (check_compil(coder, coder->data) == 1)
 		return (0);
 	pthread_mutex_lock(&coder->data->stop_lock);

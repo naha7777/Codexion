@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 14:30:27 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:18:02 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ static int	fill_coder(t_data *data)
 
 static int	fill_dongle(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	data->dongles = ft_calloc(data->nb_coder, sizeof(t_dongle));
 	if (!data->dongles)
 	{
