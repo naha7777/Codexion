@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 08:58:56 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 09:26:42 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 13:54:27 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 static int	wait(t_coder *c, t_dongle *f, t_dongle *n, t_data *d)
 {
 	long	now;
-	if (strcmp(d->schedul, "edf") == 0)
-		if (c->id != d->heap.array[0].coder_id)
-			return (1);
+	if (c->id != d->heap.array[0].coder_id)
+		return (1);
 	if (check_flag(c) == 1)
 		return (0);
 	if (f->nb_took == 0 && n->nb_took == 0)
@@ -73,7 +72,7 @@ static int	find_low(t_dongle *first, t_dongle *sec, t_coder *coder)
 	return (0);
 }
 
-int	check_id(int id, t_coder *coder, t_data *data)
+static int	check_id(int id, t_coder *coder, t_data *data)
 {
 	t_dongle	*first;
 	t_dongle	*sec;
@@ -94,6 +93,20 @@ int	check_id(int id, t_coder *coder, t_data *data)
 		sec = &data->dongles[id - 2];
 	}
 	if (find_low(first, sec, coder) == 1)
+		return (1);
+	return (0);
+}
+
+int	algo(t_coder *coder)
+{
+	t_data	*data;
+	int		id;
+
+	id = coder->id;
+	data = coder->data;
+	if (check_flag(coder) == 1)
+		return (1);
+	if (check_id(id, coder, data))
 		return (1);
 	return (0);
 }

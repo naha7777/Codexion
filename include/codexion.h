@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 14:51:11 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 09:30:12 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:33:49 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_data
 	long long			d_cld;
 	char				*schedul;
 	int					stop_simu;
+	long long			end_time;
 	pthread_cond_t		global_cond;
 	pthread_mutex_t		global_lock;
 	pthread_t			monitor_id;
@@ -92,16 +93,15 @@ int			parser(int argc, char **argv);
 long		ft_atol(const char *nptr);
 void		*ft_calloc(size_t nmemb, size_t size);
 
-// FILL STRUCTURES
+// FILL
 int			fill_data(char **av, t_data *data);
+void		fill_heap(t_data *data);
 
 // ROUTINE
 void		*routine(void *arg);
 
 // SCHEDULERS
-int			fifo(t_coder *coder);
-int			edf(t_coder *coder);
-int			check_id(int id, t_coder *coder, t_data *data);
+int			algo(t_coder *coder);
 
 // DONGLES
 int			i_want_dongle(t_coder *coder);

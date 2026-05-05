@@ -6,63 +6,32 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:08:46 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/05 09:48:39 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:30:27 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static int	thread_creation(int i, t_data *data)
-{
-	if (pthread_create(&data->coders[i].thread_id, NULL,
-			routine, &data->coders[i]) != 0)
-	{
-		data->stop_simu = 1;
-		while (--i >= 0)
-			pthread_join(data->coders[i].thread_id, NULL);
-		return (1);
-	}
-	return (0);
-}
-
-// static void	test(t_data *data)
-// {
-// 	int	i;
-// 	i = 0;
-// 	while (data->heap.array[i].coder_id != 0)
-// 	{
-// 		printf("[%i]", data->heap.array[i].coder_id);
-// 		i++;
-// 	}
-// }
-
-static void	fill_heap(t_data *data)
+static int	thread_creation(t_data *data)
 {
 	int	i;
-	int	y;
 
-	i = -1;
-	y = 0;
-	while (i++ < data->nb_coder - 1)
+	i = 0;
+	while (i < data->nb_coder)
 	{
-		if (data->coders[i].id % 2 != 0)
+		if (pthread_create(&data->coders[i].thread_id, NULL,
+				routine, &data->coders[i]) != 0)
 		{
-			data->heap.array[y].coder_id = data->coders[i].id;
-			data->heap.size ++;
-			y++;
+			pthread_mutex_lock(&data->stop_lock);
+			data->stop_simu = 1;
+			pthread_mutex_unlock(&data->stop_lock);
+			while (--i >= 0)
+				pthread_join(data->coders[i].thread_id, NULL);
+			return (thread_fail(i, data), 1);
 		}
+		i++;
 	}
-	i = -1;
-	while (i++ < data->nb_coder - 1)
-	{
-		if (data->coders[i].id % 2 == 0)
-		{
-			data->heap.array[y].coder_id = data->coders[i].id;
-			data->heap.size ++;
-			y++;
-		}
-	}
-	// test(data);
+	return (0);
 }
 
 static int	fill_coder(t_data *data)
@@ -82,12 +51,9 @@ static int	fill_coder(t_data *data)
 			return (simple_destroy(i, data), 1);
 		if (pthread_mutex_init(&data->coders[i].nb_lock, NULL) != 0)
 			return (double_destroy(i, data), 1);
-		if (thread_creation(i, data) != 0)
-			return (thread_fail(i, data), 1);
 		i++;
 	}
-	if (strcmp(data->schedul, "edf") == 0)
-		fill_heap(data);
+	fill_heap(data);
 	return (data->init_step++, 0);
 }
 
@@ -136,6 +102,8 @@ int	fill_data(char **av, t_data *data)
 	if (fill_coder(data) != 0)
 		return (1);
 	if (pthread_create(&data->monitor_id, NULL, go_monitor, data) != 0)
+		return (1);
+	if (thread_creation(data) != 0)
 		return (1);
 	return (0);
 }

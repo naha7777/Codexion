@@ -6,7 +6,7 @@
 /*   By: anacharp <anacharp@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 12:33:23 by anacharp          #+#    #+#             */
-/*   Updated: 2026/05/02 16:53:55 by anacharp         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:07:17 by anacharp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	print_status(t_coder *coder, char *status)
 {
 	pthread_mutex_lock(&coder->data->log_lock);
-	printf("%lli %i %s\n", get_sim_time(coder->data), coder->id, status);
+	if (strcmp(status, BURN) == 0 && coder->data->end_time == 0)
+		coder->data->end_time = get_sim_time(coder->data);
+	if (coder->data->end_time == 0 || strcmp(status, BURN) == 0)
+		printf("%lli %i %s\n", get_sim_time(coder->data), coder->id, status);
 	pthread_mutex_unlock(&coder->data->log_lock);
 }
 

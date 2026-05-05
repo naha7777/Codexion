@@ -8,6 +8,7 @@ SRCS_DIR = 			sources
 C_FILES = 			main.c \
 		  			init/parser.c \
 					init/fill_struct.c \
+					init/fill_heaps.c \
 					utils/ft_atol.c \
 					utils/ft_calloc.c \
 					utils/time.c \
@@ -16,11 +17,9 @@ C_FILES = 			main.c \
 					simulation/monitor.c \
 					simulation/routine.c \
 					simulation/dongle.c \
-					simulation/fifo.c \
-					simulation/edf.c \
 					simulation/utils.c \
 					simulation/heap.c \
-					simulation/algos_utils.c
+					simulation/algo.c
 
 SRC = 				$(addprefix $(SRCS_DIR)/, $(C_FILES))
 

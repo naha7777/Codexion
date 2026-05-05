@@ -30,3 +30,6 @@ Section explaining the specific threading primitives used in your implementation
 AI was used for the following tasks :
 - better understanding of threads
 -
+
+./codexion 5 300 60 60 60 15 6 edf
+./codexion 5 3000 150 150 150 15 600 edf
